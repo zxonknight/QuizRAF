@@ -6,6 +6,17 @@ from User import User
 root = tk.Tk()
 root.title("Login Screen")
 
+# Sets the size of the main window
+root.geometry("400x300")  # You can adjust the dimensions as needed
+
+# Creates entry widgets for username and password
+entry_username = tk.Entry(root, width=30)  # Set the width of the username entry
+entry_password = tk.Entry(root, show="*", width=30)  # Set the width of the password entry
+
+# Places the entry widgets in the window
+entry_username.grid(row=0, column=1, padx=10, pady=10)  # Adjust padx and pady as needed
+entry_password.grid(row=1, column=1, padx=10, pady=10)  # Adjust padx and pady as needed
+
 def login():
     username = entry_username.get()
     password = entry_password.get()
