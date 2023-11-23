@@ -1,100 +1,98 @@
+# Imports the tkinter module for GUI development and then from that the messagebox for pop-up messages
 import tkinter as tk
 from tkinter import messagebox
-from User import User
 
-# Creates the main window named login screen
-root = tk.Tk()
-root.title("Login Screen")
+# Defines the User class to represent a user with a username and password
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
-# Sets the size of the main window
-root.geometry("400x300")  # You can adjust the dimensions as needed
-
-# Creates entry widgets for username and password
-entry_username = tk.Entry(root, width=30)  # Set the width of the username entry
-entry_password = tk.Entry(root, show="*", width=30)  # Set the width of the password entry
-
-# Places the entry widgets in the window
-entry_username.grid(row=0, column=1, padx=10, pady=10)  # Adjust padx and pady as needed
-entry_password.grid(row=1, column=1, padx=10, pady=10)  # Adjust padx and pady as needed
-
+#  The login process
 def login():
+    # Retrieves the entered username and password from the user entry widgets
     username = entry_username.get()
     password = entry_password.get()
-    newUser = User(username,password)
+
+    # Checks if the entered credentials match the predefined admin credentials (This is for an admin to login)
     if username == "admin" and password == "adminpassword":
+        # Displays a pop-up message for successful login as admin
         messagebox.showinfo("Login Successful", "Welcome, Admin!")
     else:
+        # Displays an error pop-up for unsuccessful login attempts
         messagebox.showerror("Login Failed", "Invalid username or password")
 
-def register(username, password):
-    newuser = User(username, password)
-
-# CODE TO REGISTER NEW USER
-def register_window():
-    # Creates a new window for registration
-    register_window = tk.Toplevel(root)
-    register_window.title("Register")  # Names the window register
-
-    # Creates a label for a new username
-    label_new_username = tk.Label(register_window, text="New Username:")
-    label_new_username.pack(pady=(10,0))  # Sets the position
-
-    # Create an entry field for the new username
-    entry_new_username = tk.Entry(register_window)
-    entry_new_username.pack(pady=(0,10))  # sets the position
-
-    # Creates a label for a new password
-    label_new_password = tk.Label(register_window, text="New Password:")
-    label_new_password.pack(pady=(10,0))  # sets the position
-
-    # Create an entry field for the new password where the typed letters are shown as an astrix (*)
-    entry_new_password = tk.Entry(register_window, show="*")
-    entry_new_password.pack(pady=(0,10))  # Sets the position
-    # Create a button to trigger the user registration process
-
+#  The user registration process
+def register():
+    # Retrieves the entered new username and password from the registration entry widgets
     username = entry_new_username.get()
     password = entry_new_password.get()
 
-    print(username)
-    print(password)
+    # Placeholder logic for user registration; prints the new user information
+    print("Registered User:")
+    print("Username:", username)
+    print("Password:", password)
 
-    register_button = tk.Button(register_window, text="Register", command=partial(register, username, password))
-    register_button.pack(pady=(10,20))  #Sets the position
-
-def register_user():
-    # Get the text entered in the username and password entry fields
-    new_username = entry_new_username.get()
-    new_password = entry_new_password.get()
-
-    # ** Ask ben how to get it to save the new user info **
-
-    # Display a pop-up message indicating successful registration
-    messagebox.showinfo("Registration Successful", "Welcome, " + new_username + "!")
-    # Close the registration window
+    # Displays a pop-up message for successful registration
+    messagebox.showinfo("Registration Successful", "Welcome, " + username + "!")
+    
+    # Closes the registration window
     register_window.destroy()
 
+# Creates the main window for the login screen
+root = tk.Tk()
+root.title("Login Screen")
+root.geometry("500x400")  # Defines the dimensions of the main window
 
-
-
-
-
-# Create labels and entry widgets
+# Creates labels and entry widgets for the login
 label_username = tk.Label(root, text="Username:")
-label_username.pack(pady=(10,0))
+label_username.pack(pady=(10, 0))
 entry_username = tk.Entry(root)
-entry_username.pack(pady=(0,10))
+entry_username.pack(pady=(0, 10))
 
 label_password = tk.Label(root, text="Password:")
-label_password.pack(pady=(10,0))
+label_password.pack(pady=(10, 0))
 entry_password = tk.Entry(root, show="*")
-entry_password.pack(pady=(0,10))
+entry_password.pack(pady=(0, 10))
 
-# Create a login button
+# Creates a login button and registers the login function
 login_button = tk.Button(root, text="Login", command=login)
-login_button.pack(pady=(10,20))
+login_button.pack(pady=(10, 20))
 
-# Create a button to trigger the user registration process
-register_button = tk.Button(root, text="Register", command=register_window)
-register_button.pack(pady=(10,20))  #Sets the position
-# Start the tkinter event loop
+# Creates a button to trigger the user registration process and registers the register function
+register_button = tk.Button(root, text="Register", command=register)
+register_button.pack(pady=(10, 20))
+
+# Placeholder variables for the registration window and entry widgets
+register_window = None
+entry_new_username = None
+entry_new_password = None
+
+# Defines the function to create the registration window
+def register_window():
+    global register_window, entry_new_username, entry_new_password
+
+    # Creates a new window for registration
+    register_window = tk.Toplevel(root)
+    register_window.title("Register")
+
+    # Creates labels and entry widgets for the new username
+    label_new_username = tk.Label(register_window, text="New Username:")
+    label_new_username.pack(pady=(10, 0))
+    
+    entry_new_username = tk.Entry(register_window)
+    entry_new_username.pack(pady=(0, 10))
+
+    # Creates labels and entry widgets for the new password
+    label_new_password = tk.Label(register_window, text="New Password:")
+    label_new_password.pack(pady=(10, 0))
+    
+    entry_new_password = tk.Entry(register_window, show="*")
+    entry_new_password.pack(pady=(0, 10))
+
+    # Creates a button to trigger the user registration process and registers the register function
+    register_button = tk.Button(register_window, text="Register", command=register)
+    register_button.pack(pady=(10, 20))
+
+# Starts the tkinter event loop
 root.mainloop()
