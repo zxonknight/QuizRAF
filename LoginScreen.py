@@ -1,4 +1,4 @@
-# Imports the tkinter module for GUI development and then from that the messagebox for pop-up messages
+# Imports the tkinter module for GUI development and message box for pop-up messages
 import tkinter as tk
 from tkinter import messagebox
 
@@ -8,13 +8,13 @@ class User:
         self.username = username
         self.password = password
 
-#  The login process
+# Handles the login process
 def login():
-    # Retrieves the entered username and password from the user entry widgets
+    # Retrieves the entered username and password from the login entry widgets
     username = entry_username.get()
     password = entry_password.get()
 
-    # Checks if the entered credentials match the predefined admin credentials (This is for an admin to login)
+    # Checks if the entered credentials match the predefined admin credentials
     if username == "admin" and password == "adminpassword":
         # Displays a pop-up message for successful login as admin
         messagebox.showinfo("Login Successful", "Welcome, Admin!")
@@ -22,11 +22,11 @@ def login():
         # Displays an error pop-up for unsuccessful login attempts
         messagebox.showerror("Login Failed", "Invalid username or password")
 
-#  The user registration process
+# Handles the registration process
 def register():
     # Retrieves the entered new username and password from the registration entry widgets
-    username = entry_new_username.get()
-    password = entry_new_password.get()
+    username = entry_new_username.get() if entry_new_username else ""
+    password = entry_new_password.get() if entry_new_password else ""
 
     # Placeholder logic for user registration; prints the new user information
     print("Registered User:")
@@ -42,7 +42,7 @@ def register():
 # Creates the main window for the login screen
 root = tk.Tk()
 root.title("Login Screen")
-root.geometry("500x400")  # Defines the dimensions of the main window
+root.geometry("400x300")  # Defines the dimensions of the main window
 
 # Creates labels and entry widgets for the login
 label_username = tk.Label(root, text="Username:")
@@ -69,7 +69,7 @@ entry_new_username = None
 entry_new_password = None
 
 # Defines the function to create the registration window
-def register_window():
+def register_window_func():
     global register_window, entry_new_username, entry_new_password
 
     # Creates a new window for registration
@@ -93,6 +93,10 @@ def register_window():
     # Creates a button to trigger the user registration process and registers the register function
     register_button = tk.Button(register_window, text="Register", command=register)
     register_button.pack(pady=(10, 20))
+
+# Creates a button to trigger the registration window creation
+register_button = tk.Button(root, text="Register", command=register_window_func)
+register_button.pack(pady=(10, 20))
 
 # Starts the tkinter event loop
 root.mainloop()
