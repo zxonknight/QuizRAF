@@ -59,9 +59,6 @@ entry_password.pack(pady=(0, 10))
 login_button = tk.Button(root, text="Login", command=login)
 login_button.pack(pady=(10, 20))
 
-# Creates a button to trigger the user registration process and registers the register function
-register_button = tk.Button(root, text="Register", command=register)
-register_button.pack(pady=(10, 20))
 
 # Placeholder variables for the registration window and entry boxes
 register_window = None
