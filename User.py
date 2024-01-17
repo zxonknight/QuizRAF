@@ -36,4 +36,19 @@ class User:
         #
         self.conn.commit()
         self.conn.close()
+
+      def authenticate(self):
+        # Check if the entered username and password match the ones in the database
+        self.conn = sqlite3.connect("user_credentials.db")
+        self.cursor = self.conn.cursor()
+
+        self.cursor.execute('''
+            SELECT * FROM users
+            WHERE username=? AND password=?
+        ''', (self.username, self.password))
+
+        user_data = self.cursor.fetchone()
+        self.conn.close()
+
+        return user_data is not None
     

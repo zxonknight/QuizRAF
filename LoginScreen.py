@@ -14,6 +14,18 @@ def login():
     username = entry_username.get()
     password = entry_password.get()
 
+    # Check if the entered credentials match the ones in the database
+    user = User(username, password)
+    if user.authenticate():
+        # Close the login window
+        root.destroy()
+
+        # Open the quiz menu window
+        open_quiz_menu(username)
+    else:
+        # Displays an error pop-up for unsuccessful login attempts
+        messagebox.showerror("Login Failed", "Invalid username or password")
+
     # Checks if the entered credentials match the predefined admin credentials
     if username == "admin" and password == "adminpassword":
         # Displays a pop-up message for successful login as admin
@@ -38,6 +50,17 @@ def register():
     
     # Closes the registration window
     register_window.destroy()
+
+def open_quiz_menu(username):
+    # Create the quiz menu window
+    quiz_menu_window = tk.Tk()
+    quiz_menu_window.title("Quiz Menu")
+    quiz_menu_window.geometry("400x300")  # Set the dimensions of the quiz menu window
+
+    # Add quiz menu components and functionalities here
+
+    # Start the tkinter event loop for the quiz menu window
+    quiz_menu_window.mainloop()
 
 # Creates the main window for the login screen
 root = tk.Tk()
