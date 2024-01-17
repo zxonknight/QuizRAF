@@ -2,11 +2,14 @@
 import tkinter as tk
 from tkinter import messagebox
 
+# Imports user
+from User import User #Imports the user class from user.py
+
 # Defines the User class to represent a user with a username and password
-class User:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+# class User:
+#    def __init__(self, username, password):
+#        self.username = username
+#        self.password = password
 
 # login process
 def login():
@@ -95,6 +98,7 @@ def register_window_func():
     # Creates a new window for registration
     register_window = tk.Toplevel(root)
     register_window.title("Register")
+    root.geometry("300x250")  # Defines the dimensions of the main window
 
     # Creates labels and entry boxes for the new username
     label_new_username = tk.Label(register_window, text="New Username:")

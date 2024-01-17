@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------------------------------------------------------
 # USER.PY 
 # -----------------------------------------------------------------------------------------------------------------------
@@ -23,7 +22,7 @@ class User:
         self.conn.commit()
         self.conn.close()
 
-    def registerUser():
+    def registerUser(self):
         #we are goning to  INSERT the username and password into the database
         # Create a connection to database
         self.conn = sqlite3.connect("user_credentials.db") 
@@ -37,7 +36,7 @@ class User:
         self.conn.commit()
         self.conn.close()
 
-      def authenticate(self):
+    def authenticate(self):
         # Check if the entered username and password match the ones in the database
         self.conn = sqlite3.connect("user_credentials.db")
         self.cursor = self.conn.cursor()
