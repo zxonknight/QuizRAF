@@ -5,6 +5,7 @@ from tkinter import messagebox
 # Imports user
 from User import User #Imports the user class from user.py
 
+# ---- THIS PART REMOVED AS USER CLASS FROM USER.PY IS USED ---
 # Defines the User class to represent a user with a username and password
 # class User:
 #    def __init__(self, username, password):
@@ -25,17 +26,39 @@ def login():
 
         # Open the quiz menu window
         open_quiz_menu(username)
+    # else:
+        # Displays an error pop-up for unsuccessful login attempts
+       #TEMP BLOCK# messagebox.showerror("Login Failed", "Invalid username or password")
+        # ------------------------------ DEBUG DEBUG DEBUG ----------------------------------------------------------
     else:
+        # Display debug information
+        print("Authentication failed for user:", username, password)
+
         # Displays an error pop-up for unsuccessful login attempts
         messagebox.showerror("Login Failed", "Invalid username or password")
 
+        # Check if the entered credentials match the predefined admin credentials
+        if username == "admin" and password == "adminpassword":
+            # Display debug information
+            print("Admin login attempt")
+
+            # Displays a pop-up message for successful login as admin
+            messagebox.showinfo("Login Successful", "Welcome, Admin!")
+        else:
+            # Display debug information
+            print("Regular user login attempt")
+
+            # Displays an error pop-up for unsuccessful login attempts
+            messagebox.showerror("Login Failed", "Invalid username or password") 
+    #---------------------------------------------- DEBUG DEBUG DEBUG ------------------------------------------------------   
+
     # Checks if the entered credentials match the predefined admin credentials
-    if username == "admin" and password == "adminpassword":
-        # Displays a pop-up message for successful login as admin
-        messagebox.showinfo("Login Successful", "Welcome, Admin!")
-    else:
-        # Displays an error pop-up for unsuccessful login attempts
-        messagebox.showerror("Login Failed", "Invalid username or password")
+   #if username == "admin" and password == "adminpassword":
+    #    # Displays a pop-up message for successful login as admin
+     #   messagebox.showinfo("Login Successful", "Welcome, Admin!")
+    #else:
+     #   # Displays an error pop-up for unsuccessful login attempts
+      #  messagebox.showerror("Login Failed", "Invalid username or password")
 
 # Handles the registration process
 def register():
