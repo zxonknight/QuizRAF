@@ -20,6 +20,8 @@ def login():
 
     # Check if the entered credentials match the ones in the database
     user = User(username, password)
+    open_quiz_menu(username)
+
     if user.authenticate():
         # Close the login window
         root.destroy()
