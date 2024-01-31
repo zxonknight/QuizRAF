@@ -86,9 +86,26 @@ def open_quiz_menu(username):
     quiz_menu_window.geometry("400x300")  # Set the dimensions of the quiz menu window
 
     # Add quiz menu components and functionalities here
+    label_quiz_menu = tk.Label(quiz_menu_window, text=f"Welcome, {username}!")
+    label_quiz_menu.pack(pady=10)
+
+    # Button to start a new quiz
+    btn_new_quiz = tk.Button(quiz_menu_window, text="New Quiz", command=start_new_quiz)
+    btn_new_quiz.pack(pady=10)
+
+    # Button to exit the application
+    btn_exit = tk.Button(quiz_menu_window, text="Exit", command=quiz_menu_window.destroy)
+    btn_exit.pack(pady=10)
+    print ("Quiz exited")
 
     # Start the tkinter event loop for the quiz menu window
     quiz_menu_window.mainloop()
+
+# Function to handle starting a new quiz
+def start_new_quiz():
+    # Add code here to handle the logic for starting a new quiz
+    print("New quiz started!")
+
 
 # Creates the main window for the login screen
 root = tk.Tk()
