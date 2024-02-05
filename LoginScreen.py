@@ -101,6 +101,33 @@ def open_quiz_menu(username):
     # Start the tkinter event loop for the quiz menu window
     quiz_menu_window.mainloop()
 
+    # Dictionary to store quiz questions and options
+    quiz_questions = {
+        "RAF People": [
+            ("Who is CAS?", ("Rich Knighton", "John Smith")),
+            ("Who is Air + Space Cdr?", ("Harv Smyth", "Jane Doe")),
+            ("Who is DCAS?", ("Paul Lloyd", "Alice Johnson")),
+            ("Who is AOC 22 Gp?", ("Cab Townsend", "Tom Brown")),
+            ("Who is WO RAF?", ("Subby Subramanium", "Chris Wilson")),
+        ],
+        "Pilot Questions": [
+            ("What is the opposite of North?", ("South", "East")),
+            ("Do you need polarised or unpolarised sunglasses?", ("Unpolarised", "Polarised")),
+            ("What is the name of the RAF's jet trainer?", ("Hawk", "Tornado")),
+            ("What is mach?", ("Speed of Sound", "Light Speed")),
+            ("What is the nickname of the RAFAT?", ("Red Arrows", "Blue Angels")),
+        ],
+        "RAF Knowledge": [
+            ("What does RAF stand for?", ("Royal Air Force", "Royal Army Force")),
+            ("When was the RAF founded?", ("1918", "1945")),
+            ("How many RAF groups are there?", ("5", "3")),
+            ("What group is RAF training?", ("22 Gp", "15 Gp")),
+            ("True or False. The RAF is the world's first independent Air Force?", ("True", "False")),
+        ],
+}
+
+
+
 # Function to handle starting a new quiz
 def start_new_quiz():
     # Add code here to handle the logic for starting a new quiz
