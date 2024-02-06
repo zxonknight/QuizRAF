@@ -5,6 +5,35 @@ from tkinter import messagebox
 # Imports user
 from User import User #Imports the user class from user.py
 
+ # Import the Queue class from the queue module
+from queue import Queue
+
+# Dictionary to store quiz questions and options
+quiz_questions = {
+    "RAF People": [
+        ("Who is CAS?", ("Rich Knighton", "John Smith")),
+        ("Who is Air + Space Cdr?", ("Harv Smyth", "Jane Doe")),
+        ("Who is DCAS?", ("Paul Lloyd", "Alice Johnson")),
+        ("Who is AOC 22 Gp?", ("Cab Townsend", "Tom Brown")),
+        ("Who is WO RAF?", ("Subby Subramanium", "Chris Wilson")),
+    ],
+    "Pilot Questions": [
+        ("What is the opposite of North?", ("South", "East")),
+        ("Do you need polarised or unpolarised sunglasses?", ("Unpolarised", "Polarised")),
+        ("What is the name of the RAF's jet trainer?", ("Hawk", "Tornado")),
+        ("What is mach?", ("Speed of Sound", "Light Speed")),
+        ("What is the nickname of the RAFAT?", ("Red Arrows", "Blue Angels")),
+    ],
+    "RAF Knowledge": [
+        ("What does RAF stand for?", ("Royal Air Force", "Royal Army Force")),
+        ("When was the RAF founded?", ("1918", "1945")),
+        ("How many RAF groups are there?", ("5", "3")),
+        ("What group is RAF training?", ("22 Gp", "15 Gp")),
+        ("True or False. The RAF is the world's first independent Air Force?", ("True", "False")),
+    ],
+}
+
+
 # ---- THIS PART REMOVED AS USER CLASS FROM USER.PY IS USED ---
 # Defines the User class to represent a user with a username and password
 # class User:
@@ -101,30 +130,7 @@ def open_quiz_menu(username):
     # Start the tkinter event loop for the quiz menu window
     quiz_menu_window.mainloop()
 
-    # Dictionary to store quiz questions and options
-    quiz_questions = {
-        "RAF People": [
-            ("Who is CAS?", ("Rich Knighton", "John Smith")),
-            ("Who is Air + Space Cdr?", ("Harv Smyth", "Jane Doe")),
-            ("Who is DCAS?", ("Paul Lloyd", "Alice Johnson")),
-            ("Who is AOC 22 Gp?", ("Cab Townsend", "Tom Brown")),
-            ("Who is WO RAF?", ("Subby Subramanium", "Chris Wilson")),
-        ],
-        "Pilot Questions": [
-            ("What is the opposite of North?", ("South", "East")),
-            ("Do you need polarised or unpolarised sunglasses?", ("Unpolarised", "Polarised")),
-            ("What is the name of the RAF's jet trainer?", ("Hawk", "Tornado")),
-            ("What is mach?", ("Speed of Sound", "Light Speed")),
-            ("What is the nickname of the RAFAT?", ("Red Arrows", "Blue Angels")),
-        ],
-        "RAF Knowledge": [
-            ("What does RAF stand for?", ("Royal Air Force", "Royal Army Force")),
-            ("When was the RAF founded?", ("1918", "1945")),
-            ("How many RAF groups are there?", ("5", "3")),
-            ("What group is RAF training?", ("22 Gp", "15 Gp")),
-            ("True or False. The RAF is the world's first independent Air Force?", ("True", "False")),
-        ],
-}
+
 
 
 
@@ -190,6 +196,47 @@ def register_window_func():
 # Creates a button to trigger the registration window creation
 register_button = tk.Button(root, text="Register", command=register_window_func)
 register_button.pack(pady=(10, 20))
+
+# Create a global queue to store quiz questions and options
+quiz_queue = Queue()
+
+# Initialize the quiz questions and options in the global queue
+for category, questions_and_options in quiz_questions.items():
+    for question, options in questions_and_options:
+        quiz_queue.put((category, question, options))
+
+
+# Function to handle starting a new quiz
+def start_new_quiz():
+    # Check if there are questions in the queue
+    if not quiz_queue.empty():
+        # Get the next question from the queue
+        category, question, options = quiz_queue.get()
+
+        # Create a new window for the quiz question
+        quiz_question_window = tk.Toplevel(root)
+        quiz_question_window.title("Quiz Question")
+        quiz_question_window.geometry("400x200")
+
+        # Display the quiz question and options
+        label_question = tk.Label(quiz_question_window, text=question)
+        label_question.pack(pady=10)
+
+        # Create buttons for each option
+        for option in options:
+            btn_option = tk.Button(quiz_question_window, text=option, command=lambda: answer_selected(category, question, option))
+            btn_option.pack(pady=5)
+
+    else:
+        # Display a message if the queue is empty
+        messagebox.showinfo("Quiz Complete", "No more questions available!")
+
+# Function to handle the user's answer selection
+def answer_selected(category, question, selected_option):
+    # Add your logic here to handle the user's answer
+    print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
+
+
 
 # Starts the tkinter event loop
 root.mainloop()
