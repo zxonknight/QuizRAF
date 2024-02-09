@@ -205,6 +205,8 @@ for category, questions_and_options in quiz_questions.items():
     for question, options in questions_and_options:
         quiz_queue.put((category, question, options))
 
+# Declares quiz_question_window as a global variable
+quiz_question_window = None
 
 # Function to handle starting a new quiz
 def start_new_quiz():
@@ -234,14 +236,17 @@ def start_new_quiz():
 
     # Function to handle the user's answer selection
 def answer_selected(category, question, selected_option):
+    # Declare quiz_question_window as a global variable to make it accessible from both start_new_quiz and answer_selected functions
+    global quiz_question_window
     # Outputs the category question and selected option to the terminal
     print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
 
+    # Close the question window
+    quiz_question_window.destroy()
+    
     # Call start_new_quiz again to proceed to the next question
     start_new_quiz()
 
-    # Close the question window
-    root.destroy()
 
 
 
