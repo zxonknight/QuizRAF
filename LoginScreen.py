@@ -11,7 +11,7 @@ from queue import Queue
 # Dictionary to store quiz questions and options
 quiz_questions = {
     "RAF People": [
-        ("Who is CAS?", ("Rich Knighton", "John Smith")),
+        ("Who is CAS?", ("Rich Knighton", "Mike Andrews")),
         ("Who is Air + Space Cdr?", ("Harv Smyth", "Jane Doe")),
         ("Who is DCAS?", ("Paul Lloyd", "Alice Johnson")),
         ("Who is AOC 22 Gp?", ("Cab Townsend", "Tom Brown")),
@@ -231,10 +231,17 @@ def start_new_quiz():
         # Display a message if the queue is empty
         messagebox.showinfo("Quiz Complete", "No more questions available!")
 
-# Function to handle the user's answer selection
+
+    # Function to handle the user's answer selection
 def answer_selected(category, question, selected_option):
-    # Add your logic here to handle the user's answer
+    # Outputs the category question and selected option to the terminal
     print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
+
+    # Call start_new_quiz again to proceed to the next question
+    start_new_quiz()
+
+    # Close the question window
+    root.destroy()
 
 
 
