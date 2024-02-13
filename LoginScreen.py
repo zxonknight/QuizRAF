@@ -210,6 +210,7 @@ quiz_question_window = None
 
 # Function to handle starting a new quiz
 def start_new_quiz():
+    global quiz_question_window  # Declares quiz_question_window as a global variable attempt again
     # Check if there are questions in the queue
     if not quiz_queue.empty():
         # Get the next question from the queue
