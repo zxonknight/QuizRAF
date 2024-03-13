@@ -6,7 +6,7 @@ from tkinter import messagebox
 from User import User #Imports the user class from user.py
 
  # Import the Queue class from the queue module
-from queue import Queue
+from queue_class import Queue
 
 # Dictionary to store quiz questions and options
 quiz_questions = {
@@ -197,13 +197,14 @@ def register_window_func():
 register_button = tk.Button(root, text="Register", command=register_window_func)
 register_button.pack(pady=(10, 20))
 
+# Using now
 # Create a global queue to store quiz questions and options
-quiz_queue = Queue()
+q = Queue()
 
 # Initialize the quiz questions and options in the global queue
 for category, questions_and_options in quiz_questions.items():
     for question, options in questions_and_options:
-        quiz_queue.put((category, question, options))
+        q.enqueue((category, question, options))
 
 # Declares quiz_question_window as a global variable
 quiz_question_window = None
@@ -212,9 +213,9 @@ quiz_question_window = None
 def start_new_quiz():
     global quiz_question_window  # Declares quiz_question_window as a global variable attempt again
     # Check if there are questions in the queue
-    if not quiz_queue.empty():
+    if not q.is_empty():
         # Get the next question from the queue
-        category, question, options = quiz_queue.get()
+        category, question, options = q.dequeue()
 
         # Create a new window for the quiz question
         quiz_question_window = tk.Toplevel(root)
