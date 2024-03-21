@@ -228,8 +228,9 @@ def start_new_quiz():
 
         # Create buttons for each option
         for option in options:
-            btn_option = tk.Button(quiz_question_window, text=option, command=lambda: answer_selected(category, question, option))
+            btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(category, question, opt))
             btn_option.pack(pady=5)
+
 
     else:
         # Display a message if the queue is empty

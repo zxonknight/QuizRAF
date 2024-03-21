@@ -69,3 +69,5 @@ print("Queue size:", q.size())  # Output: 15
 print("Front item:", q.peek())  # Output: ("RAF People", "Who is CAS?", ("Rich Knighton", "Mike Andrews"))
 print("Dequeue:", q.dequeue())  # Output: ("RAF People", "Who is CAS?", ("Rich Knighton", "Mike Andrews"))
 print("Queue size after dequeue:", q.size())  # Output: 14
+
+
