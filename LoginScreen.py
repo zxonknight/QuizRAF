@@ -132,6 +132,7 @@ def open_quiz_menu(username):
     btn_raf_knowledge = tk.Button(quiz_menu_window, text="RAF Knowledge", command=lambda: start_new_quiz(username, "RAF Knowledge"))
     btn_raf_knowledge.pack(pady=5)
 
+
     # Button to exit the application
     btn_exit = tk.Button(quiz_menu_window, text="Exit", command=quiz_menu_window.destroy)
     btn_exit.pack(pady=10)
@@ -140,7 +141,7 @@ def open_quiz_menu(username):
     quiz_menu_window.mainloop()
 
 # Function to handle starting a new quiz
-def start_new_quiz(category):
+def start_new_quiz(username, category):
     global quiz_question_window
     # Initialize the queue for the selected category
     initialize_queue(category)
