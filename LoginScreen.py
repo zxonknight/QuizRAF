@@ -51,6 +51,8 @@ def login():
     user = User(username, password)
     open_quiz_menu(username)
 
+
+
     if user.authenticate():
         # Close the login window
         root.destroy()
@@ -114,18 +116,25 @@ def open_quiz_menu(username):
     quiz_menu_window.title("Quiz Menu")
     quiz_menu_window.geometry("400x300")  # Set the dimensions of the quiz menu window
 
-    # Add quiz menu components and functionalities here
-    label_quiz_menu = tk.Label(quiz_menu_window, text=f"Welcome, {username}!")
+   # Add quiz menu components and functionalities here
+    label_quiz_menu = tk.Label(quiz_menu_window, text=f"Welcome, {username}. Select a quiz to get started!")
     label_quiz_menu.pack(pady=10)
 
-    # Button to start a new quiz
-    btn_new_quiz = tk.Button(quiz_menu_window, text="New Quiz", command=start_new_quiz)
-    btn_new_quiz.pack(pady=10)
+    # Button to select RAF People quiz
+    btn_raf_people = tk.Button(quiz_menu_window, text="RAF People", command=lambda: start_new_quiz(username, "RAF People"))
+    btn_raf_people.pack(pady=5)
+
+    # Button to select Pilot Questions quiz
+    btn_pilot_questions = tk.Button(quiz_menu_window, text="Pilot Questions", command=lambda: start_new_quiz(username, "Pilot Questions"))
+    btn_pilot_questions.pack(pady=5)
+
+    # Button to select RAF Knowledge quiz
+    btn_raf_knowledge = tk.Button(quiz_menu_window, text="RAF Knowledge", command=lambda: start_new_quiz(username, "RAF Knowledge"))
+    btn_raf_knowledge.pack(pady=5)
 
     # Button to exit the application
     btn_exit = tk.Button(quiz_menu_window, text="Exit", command=quiz_menu_window.destroy)
     btn_exit.pack(pady=10)
-    print ("Quiz exited")
 
     # Start the tkinter event loop for the quiz menu window
     quiz_menu_window.mainloop()
@@ -135,8 +144,12 @@ def open_quiz_menu(username):
 
 
 # Function to handle starting a new quiz
-def start_new_quiz():
+def start_new_quiz(username, category):
     # Add code here to handle the logic for starting a new quiz
+    # Create a new window for the selected quiz category
+    quiz_window = tk.Toplevel()
+    quiz_window.title(f"{category} Quiz")
+    quiz_window.geometry("400x300")
     print("New quiz started!")
 
 
@@ -144,6 +157,7 @@ def start_new_quiz():
 root = tk.Tk()
 root.title("Login Screen")
 root.geometry("400x300")  # Defines the dimensions of the main window
+
 
 # Creates labels and entry boxes for the login
 label_username = tk.Label(root, text="Username:")
@@ -209,32 +223,33 @@ for category, questions_and_options in quiz_questions.items():
 # Declares quiz_question_window as a global variable
 quiz_question_window = None
 
+# OLD START NEW QUIZ FUNCTION -------------------------------------------------
 # Function to handle starting a new quiz
-def start_new_quiz():
-    global quiz_question_window  # Declares quiz_question_window as a global variable attempt again
-    # Check if there are questions in the queue
-    if not q.is_empty():
-        # Get the next question from the queue
-        category, question, options = q.dequeue()
+#def start_new_quiz():
+ #   global quiz_question_window  # Declares quiz_question_window as a global variable attempt again
+  #  # Check if there are questions in the queue
+   # if not q.is_empty():
+    #    # Get the next question from the queue
+     #   category, question, options = q.dequeue()
 
-        # Create a new window for the quiz question
-        quiz_question_window = tk.Toplevel(root)
-        quiz_question_window.title("Quiz Question")
-        quiz_question_window.geometry("400x200")
+      #  # Create a new window for the quiz question
+       # quiz_question_window = tk.Toplevel(root)
+        #quiz_question_window.title("Quiz Question")
+        #quiz_question_window.geometry("400x200")
 
         # Display the quiz question and options
-        label_question = tk.Label(quiz_question_window, text=question)
-        label_question.pack(pady=10)
+        #label_question = tk.Label(quiz_question_window, text=question)
+        #label_question.pack(pady=10)
 
         # Create buttons for each option
-        for option in options:
-            btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(category, question, opt))
-            btn_option.pack(pady=5)
+        #for option in options:
+        #    btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(category, question, opt))
+        #    btn_option.pack(pady=5)
 
 
-    else:
+   # else:
         # Display a message if the queue is empty
-        messagebox.showinfo("Quiz Complete", "No more questions available!")
+    #    messagebox.showinfo("Quiz Complete", "No more questions available!")
 
 
     # Function to handle the user's answer selection
