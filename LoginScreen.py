@@ -139,19 +139,54 @@ def open_quiz_menu(username):
     # Start the tkinter event loop for the quiz menu window
     quiz_menu_window.mainloop()
 
-
-
-
-
 # Function to handle starting a new quiz
 def start_new_quiz(username, category):
-    # Add code here to handle the logic for starting a new quiz
+    global quiz_question_window
+    
     # Create a new window for the selected quiz category
-    quiz_window = tk.Toplevel()
-    quiz_window.title(f"{category} Quiz")
-    quiz_window.geometry("400x300")
-    print("New quiz started!")
+    quiz_question_window = tk.Toplevel()
+    quiz_question_window.title(f"{category} Quiz")
+    quiz_question_window.geometry("400x200")
+    
+    # Retrieve questions and options for the selected category
+    questions_and_options = quiz_questions[category]
 
+    # Display the first question
+    display_question(username, category, questions_and_options)
+
+# Function to display a question and options
+def display_question(username, category, questions_and_options):
+    # Check if there are questions in the queue
+    if questions_and_options:
+        # Get the next question from the list
+        question, options = questions_and_options.pop(0)
+
+        # Display the quiz question
+        label_question = tk.Label(quiz_question_window, text=question)
+        label_question.pack(pady=10)
+
+    # Create buttons for each option
+    for option in options:
+        # Modify the lambda function to pass only the required arguments to answer_selected
+        btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(username, category, question, opt))
+        btn_option.pack(pady=5)
+    else:
+        # Display a message if there are no more questions
+        messagebox.showinfo("Quiz Complete", "No more questions available!")
+
+# Function to handle the user's answer selection
+def answer_selected(username, category, question, selected_option):
+    # Outputs the category, question, and selected option to the terminal
+    print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
+
+    # Close the question window
+    quiz_question_window.destroy()
+    
+    # Retrieve questions and options for the selected category
+    questions_and_options = quiz_questions[category]
+    
+    # Display the next question
+    display_question(username, category, questions_and_options)
 
 # Creates the main window for the login screen
 root = tk.Tk()
