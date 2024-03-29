@@ -165,28 +165,27 @@ def display_question(username, category, questions_and_options):
         label_question = tk.Label(quiz_question_window, text=question)
         label_question.pack(pady=10)
 
-    # Create buttons for each option
-    for option in options:
-        # Modify the lambda function to pass only the required arguments to answer_selected
-        btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(username, category, question, opt))
-        btn_option.pack(pady=5)
+        # Create buttons for each option
+        for option in options:
+            # Modify the lambda function to pass only the required arguments to answer_selected
+            btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(username, category, question, questions_and_options, opt))
+            btn_option.pack(pady=5)
     else:
         # Display a message if there are no more questions
         messagebox.showinfo("Quiz Complete", "No more questions available!")
 
 # Function to handle the user's answer selection
-def answer_selected(username, category, question, selected_option):
-    # Outputs the category, question, and selected option to the terminal
-    print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
+def answer_selected(question, questions_and_options, selected_option):
+    # Outputs the question and selected option to the terminal
+    print(f"Question: {question}, Selected Option: {selected_option}")
 
     # Close the question window
     quiz_question_window.destroy()
-    
-    # Retrieve questions and options for the selected category
-    questions_and_options = quiz_questions[category]
-    
-    # Display the next question
-    display_question(username, category, questions_and_options)
+
+    # Display the next question or end the quiz if there are no more questions
+    display_question(questions_and_options)
+
+
 
 # Creates the main window for the login screen
 root = tk.Tk()
@@ -286,19 +285,19 @@ quiz_question_window = None
         # Display a message if the queue is empty
     #    messagebox.showinfo("Quiz Complete", "No more questions available!")
 
-
+    # NO LONGER USED
     # Function to handle the user's answer selection
-def answer_selected(category, question, selected_option):
+#def answer_selected(category, question, selected_option):
     # Declare quiz_question_window as a global variable to make it accessible from both start_new_quiz and answer_selected functions
-    global quiz_question_window
+  #  global quiz_question_window
     # Outputs the category question and selected option to the terminal
-    print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
+  #  print(f"Category: {category}, Question: {question}, Selected Option: {selected_option}")
 
     # Close the question window
-    quiz_question_window.destroy()
+ #   quiz_question_window.destroy()
     
     # Call start_new_quiz again to proceed to the next question
-    start_new_quiz()
+ #  start_new_quiz()
 
 
 
