@@ -140,26 +140,31 @@ def open_quiz_menu(username):
     quiz_menu_window.mainloop()
 
 # Function to handle starting a new quiz
-def start_new_quiz(username, category):
+def start_new_quiz(category):
     global quiz_question_window
-    
-    # Create a new window for the selected quiz category
-    quiz_question_window = tk.Toplevel()
-    quiz_question_window.title(f"{category} Quiz")
-    quiz_question_window.geometry("400x200")
-    
-    # Retrieve questions and options for the selected category
-    questions_and_options = quiz_questions[category]
+    # Initialize the queue for the selected category
+    initialize_queue(category)
 
-    # Display the first question
-    display_question(username, category, questions_and_options)
+    # Call display_question to display the first question
+    display_question()
+
+# Global variable to store the current question
+current_question = None
 
 # Function to display a question and options
-def display_question(username, category, questions_and_options):
+def display_question():
+    global current_question
     # Check if there are questions in the queue
-    if questions_and_options:
-        # Get the next question from the list
-        question, options = questions_and_options.pop(0)
+    if not q.is_empty():
+        # Get the next question from the queue
+        current_question = q.dequeue()
+        category, question, options = current_question
+
+        # Create a new window for the quiz question
+        global quiz_question_window
+        quiz_question_window = tk.Toplevel()
+        quiz_question_window.title("Quiz Question")
+        quiz_question_window.geometry("400x200")
 
         # Display the quiz question
         label_question = tk.Label(quiz_question_window, text=question)
@@ -167,23 +172,37 @@ def display_question(username, category, questions_and_options):
 
         # Create buttons for each option
         for option in options:
-            # Modify the lambda function to pass only the required arguments to answer_selected
-            btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(username, category, question, questions_and_options, opt))
+            btn_option = tk.Button(quiz_question_window, text=option, command=lambda opt=option: answer_selected(opt))
             btn_option.pack(pady=5)
     else:
-        # Display a message if there are no more questions
+        # Display a message if the queue is empty
         messagebox.showinfo("Quiz Complete", "No more questions available!")
+        # Reset the queue for potential restart of the quiz
+        initialize_queue()
+
+# Function to initialize the queue for the selected category
+def initialize_queue(category=None):
+    global q
+    # Clear the queue
+    q = Queue()
+
+    # Initialize the queue with questions and options for the selected category
+    if category in quiz_questions:
+        for question, options in quiz_questions[category]:
+            q.enqueue((category, question, options))
+    else:
+        messagebox.showerror("Error", f"Category '{category}' not found.")
 
 # Function to handle the user's answer selection
-def answer_selected(question, questions_and_options, selected_option):
+def answer_selected(selected_option):
     # Outputs the question and selected option to the terminal
-    print(f"Question: {question}, Selected Option: {selected_option}")
+    print(f"Selected Option: {selected_option}")
 
     # Close the question window
     quiz_question_window.destroy()
 
     # Display the next question or end the quiz if there are no more questions
-    display_question(questions_and_options)
+    display_question()
 
 
 
