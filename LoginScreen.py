@@ -11,27 +11,29 @@ from queue_class import Queue
 # Dictionary to store quiz questions and options
 quiz_questions = {
     "RAF People": [
-        ("Who is CAS?", ("Rich Knighton", "Mike Andrews")),
-        ("Who is Air + Space Cdr?", ("Harv Smyth", "Jane Doe")),
-        ("Who is DCAS?", ("Paul Lloyd", "Alice Johnson")),
-        ("Who is AOC 22 Gp?", ("Cab Townsend", "Tom Brown")),
-        ("Who is WO RAF?", ("Subby Subramanium", "Chris Wilson")),
+        ("Who is CAS?", ("Rich Knighton", "Mike Andrews"), "Rich Knighton"),
+        ("Who is Air + Space Cdr?", ("Harv Smyth", "Jane Doe"), "Harv Smyth"),
+        ("Who is DCAS?", ("Paul Lloyd", "Alice Johnson"), "Paul Lloyd"),
+        ("Who is AOC 22 Gp?", ("Cab Townsend", "Tom Brown"), "Cab Townsend"),
+        ("Who is WO RAF?", ("Subby Subramanium", "Chris Wilson"), "Subby Subramanium"),
     ],
     "Pilot Questions": [
-        ("What is the opposite of North?", ("South", "East")),
-        ("Do you need polarised or unpolarised sunglasses?", ("Unpolarised", "Polarised")),
-        ("What is the name of the RAF's jet trainer?", ("Hawk", "Tornado")),
-        ("What is mach?", ("Speed of Sound", "Light Speed")),
-        ("What is the nickname of the RAFAT?", ("Red Arrows", "Blue Angels")),
+        ("What is the opposite of North?", ("South", "East"), "South"),
+        ("Do you need polarised or unpolarised sunglasses?", ("Unpolarised", "Polarised"), "Unpolarised"),
+        ("What is the name of the RAF's jet trainer?", ("Hawk", "Tornado"), "Hawk"),
+        ("What is mach?", ("Speed of Sound", "Light Speed"), "Speed of Sound"),
+        ("What is the nickname of the RAFAT?", ("Red Arrows", "Blue Angels"), "Red Arrows"),
     ],
     "RAF Knowledge": [
-        ("What does RAF stand for?", ("Royal Air Force", "Royal Army Force")),
-        ("When was the RAF founded?", ("1918", "1945")),
-        ("How many RAF groups are there?", ("5", "3")),
-        ("What group is RAF training?", ("22 Gp", "15 Gp")),
-        ("True or False. The RAF is the world's first independent Air Force?", ("True", "False")),
+        ("What does RAF stand for?", ("Royal Air Force", "Royal Army Force"), "Royal Air Force"),
+        ("When was the RAF founded?", ("1918", "1945"), "1918"),
+        ("How many RAF groups are there?", ("5", "3"), "5"),
+        ("What group is RAF training?", ("22 Gp", "15 Gp"), "22 Gp"),
+        ("True or False. The RAF is the world's first independent Air Force?", ("True", "False"), "True"),
     ],
 }
+
+
 
 
 # ---- THIS PART REMOVED AS USER CLASS FROM USER.PY IS USED ---
@@ -215,54 +217,46 @@ def answer_selected(selected_option):
 
 # Function to display the quiz summary at the end of the quiz
 def display_quiz_summary():
-    global user_answers, quiz_questions  # Access the user's answers and quiz questions stored in global variables
+    global user_answers, quiz_questions
 
-    # Calculate the total number of questions attempted by the user.
     total_questions_attempted = len(user_answers)
-
-    # Initialize counters for correct and incorrect answers
     correct_count = 0
     incorrect_questions = []
 
-    # Iterate through each question attempted by the user
     for question, user_answer in user_answers.items():
-        # Find the correct answer for this question
+        # Retrieve the correct answer for this question
+        correct_answer = None
         for category, questions_and_options in quiz_questions.items():
-            for q, options in questions_and_options:
+            for q, options, correct_ans in questions_and_options:
                 if q == question:
-                    correct_answer = options[0][1][0]  # Assuming first option is always the correct answer
-
-                    # Check if the user's answer matches the correct answer
-                    if user_answer == correct_answer:
-                        correct_count += 1  # Increment correct answer count if the answer is correct
-                    else:
-                        # Append the question along with user's and correct answers to the list of incorrect questions
-                        incorrect_questions.append((question, user_answer, correct_answer))
+                    correct_answer = correct_ans
                     break
 
+        # Check if the user's answer matches the correct answer
+        if user_answer == correct_answer:
+            correct_count += 1
+        else:
+            incorrect_questions.append((question, user_answer, correct_answer))
+
     # Display quiz summary
-    summary_window = tk.Toplevel()  # Create a new window for displaying the summary
-    summary_window.title("Quiz Summary")  # Set the title of the summary window
-    summary_window.geometry("250x600")  # Set the dimensions of the summary window
+    summary_window = tk.Toplevel()  
+    summary_window.title("Quiz Summary")  
+    summary_window.geometry("250x600")  
 
-    # Create a label to display the summary information
     label_summary = tk.Label(summary_window, text=f"Quiz Summary\nTotal Questions Attempted: {total_questions_attempted}\nCorrect Answers: {correct_count}\nIncorrect Answers: {len(incorrect_questions)}")
-    label_summary.pack(pady=10)  # Pack the label into the summary window with some padding
+    label_summary.pack(pady=10)  
 
-    # Check if there are any incorrect questions
     if len(incorrect_questions) > 0:
-        label_incorrect = tk.Label(summary_window, text="Incorrect Answers:")  # Label to indicate incorrect answers
-        label_incorrect.pack(pady=5)  # Pack the label into the summary window with some padding
+        label_incorrect = tk.Label(summary_window, text="Incorrect Answers:")  
+        label_incorrect.pack(pady=5)  
 
-        # Iterate through each incorrect question and display details
         for question, user_answer, correct_answer in incorrect_questions:
-            # Create a label to display the details of the incorrect question
             label_question = tk.Label(summary_window, text=f"Question: {question}\nYour Answer: {user_answer}\nCorrect Answer: {correct_answer}")
-            label_question.pack(pady=5)  # Pack the label into the summary window with some padding
+            label_question.pack(pady=5)  
 
-      # Add a button to close the summary window
     btn_close = tk.Button(summary_window, text="Close", command=summary_window.destroy)
     btn_close.pack(pady=10)
+
 
 
 # Creates the main window for the login screen
