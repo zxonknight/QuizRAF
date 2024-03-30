@@ -178,8 +178,9 @@ def display_question():
     else:
         # Display a message if the queue is empty
         messagebox.showinfo("Quiz Complete", "No more questions available!")
-        # Reset the queue for potential restart of the quiz
-        initialize_queue()
+        # Display quiz summary
+        display_quiz_summary()
+
 
 # Function to initialize the queue for the selected category
 def initialize_queue(category=None):
@@ -194,10 +195,17 @@ def initialize_queue(category=None):
     else:
         messagebox.showerror("Error", f"Category '{category}' not found.")
 
+# Track user's answers and correct answers
+user_answers = {}  # Dictionary to store user's answers for each question
+
 # Function to handle the user's answer selection
 def answer_selected(selected_option):
+    global user_answers
     # Outputs the question and selected option to the terminal
     print(f"Selected Option: {selected_option}")
+
+    # Store the user's answer
+    user_answers[current_question[1]] = selected_option
 
     # Close the question window
     quiz_question_window.destroy()
@@ -205,6 +213,56 @@ def answer_selected(selected_option):
     # Display the next question or end the quiz if there are no more questions
     display_question()
 
+# Function to display the quiz summary at the end of the quiz
+def display_quiz_summary():
+    global user_answers, quiz_questions  # Access the user's answers and quiz questions stored in global variables
+
+    # Calculate the total number of questions attempted by the user.
+    total_questions_attempted = len(user_answers)
+
+    # Initialize counters for correct and incorrect answers
+    correct_count = 0
+    incorrect_questions = []
+
+    # Iterate through each question attempted by the user
+    for question, user_answer in user_answers.items():
+        # Find the correct answer for this question
+        for category, questions_and_options in quiz_questions.items():
+            for q, options in questions_and_options:
+                if q == question:
+                    correct_answer = options[0][1][0]  # Assuming first option is always the correct answer
+
+                    # Check if the user's answer matches the correct answer
+                    if user_answer == correct_answer:
+                        correct_count += 1  # Increment correct answer count if the answer is correct
+                    else:
+                        # Append the question along with user's and correct answers to the list of incorrect questions
+                        incorrect_questions.append((question, user_answer, correct_answer))
+                    break
+
+    # Display quiz summary
+    summary_window = tk.Toplevel()  # Create a new window for displaying the summary
+    summary_window.title("Quiz Summary")  # Set the title of the summary window
+    summary_window.geometry("250x600")  # Set the dimensions of the summary window
+
+    # Create a label to display the summary information
+    label_summary = tk.Label(summary_window, text=f"Quiz Summary\nTotal Questions Attempted: {total_questions_attempted}\nCorrect Answers: {correct_count}\nIncorrect Answers: {len(incorrect_questions)}")
+    label_summary.pack(pady=10)  # Pack the label into the summary window with some padding
+
+    # Check if there are any incorrect questions
+    if len(incorrect_questions) > 0:
+        label_incorrect = tk.Label(summary_window, text="Incorrect Answers:")  # Label to indicate incorrect answers
+        label_incorrect.pack(pady=5)  # Pack the label into the summary window with some padding
+
+        # Iterate through each incorrect question and display details
+        for question, user_answer, correct_answer in incorrect_questions:
+            # Create a label to display the details of the incorrect question
+            label_question = tk.Label(summary_window, text=f"Question: {question}\nYour Answer: {user_answer}\nCorrect Answer: {correct_answer}")
+            label_question.pack(pady=5)  # Pack the label into the summary window with some padding
+
+      # Add a button to close the summary window
+    btn_close = tk.Button(summary_window, text="Close", command=summary_window.destroy)
+    btn_close.pack(pady=10)
 
 
 # Creates the main window for the login screen
@@ -224,10 +282,9 @@ label_password.pack(pady=(10, 0))
 entry_password = tk.Entry(root, show="*")
 entry_password.pack(pady=(0, 10))
 
-# Creates a login button and registers the login function
+# Creates a login button and registers the login function.
 login_button = tk.Button(root, text="Login", command=login)
-login_button.pack(pady=(10, 20))
-
+login_button.pack(pady=(20, 5))
 
 # Placeholder variables for the registration window and entry boxes
 register_window = None
@@ -262,8 +319,16 @@ def register_window_func():
     register_button.pack(pady=(10, 20))
 
 # Creates a button to trigger the registration window creation
-register_button = tk.Button(root, text="Register", command=register_window_func)
-register_button.pack(pady=(10, 20))
+register_button = tk.Button(root, text="Register New User", command=register_window_func)
+register_button.pack(pady=(5, 20))
+
+# Function to handle closing the login window
+def close_login_window():
+    root.destroy()
+
+# Creates an exit button to close the login window
+exit_button = tk.Button(root, text="Exit", command=close_login_window)
+exit_button.pack(pady=(10, 20))
 
 # Using now
 # Create a global queue to store quiz questions and options
